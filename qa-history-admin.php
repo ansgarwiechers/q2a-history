@@ -38,75 +38,74 @@ c_post';
 
 
 				case 'user_act_list_css':
-					return '.qa-history-item-table{
-	width:100%;
-	min-width:500px;
-}
-.qa-history-item-type-cell{
-	width:35%;
-}
-
-.qa-history-item-title-cell{
-	width:45%;
-}
-
-.qa-history-item-points-cell{
-	width:20%;
-}
-
-.qa-history-item-date {
-	background-color: #EEEEEE;
+					return '.qa-history-item-date {
+	background-color: #eeeeee;
 	color: #999999;
-	float: left;
-	font: bold 10px Verdana,Sans-Serif;
+	font-family: Verdana, sans-serif;
+	font-size: 10px;
+	font-weight: bold;
 	letter-spacing: 0;
 	padding: 6px 10px;
 	text-align: center;
 	white-space: normal;
 	width: 45px;
+	word-spacing: 2000px;
 }
 .qa-history-item-date-new {
-	background-color: #FF0 !important;
+	background-color: #ffff00 !important;
 }
 .qa-history-item-date-no {
-	font-size:150%;
+	font-size: 150%;
+}
+.qa-history-item {
+	display: flex;
+	flex-direction: row;
+	padding: 0 0 0 20px;
+}
+.qa-history-item-element {
+	margin: 0;
+	padding: 0 0 10px 0;
+	vertical-align: top;
 }
 .qa-history-item-type {
-    font-weight: bold;
-    padding: 3px;
-    text-align:center;
+	font-weight: bold;
+	order: 0;
+	text-align: center;
+	width: 220px;
 }
-
-.qa-history-item-title a{
-    color: #555555 !important;
-    font-weight: bold;
+.qa-history-item-title {
+	order: 1;
+	width: 320px;
+}
+.qa-history-item-title a {
+	color: #555555 !important;
+	font-weight: bold;
 }
 .qa-history-item-points {
-	font-weight: bold;
+	order: 2;
 	font-family: sans-serif;
-	padding: 10px;
+	font-weight: bold;
 }
 .qa-history-item-points-neg {
-	color: Maroon;
+	color: #800000;
 }
 .qa-history-item-points-pos {
-	color: Green;
+	color: #008000;
 }
 .qa-history-new-event-link {
-	text-decoration:none;
+	text-decoration: none;
 }
 .qa-history-new-event-count {
-	background-color: yellow;
-	border: 1px solid #EEEE00;
-	color:black;
-	border-radius: 4px 4px 4px 4px;
+	background-color: #ffff00;
+	border: 1px solid #eeee00;
+	border-radius: 4px;
+	color: #000000;
 	cursor: pointer;
 	font-size: 75%;
 	font-weight: bold;
 	padding: 1px 3px;
 	vertical-align: top;
-}
-';
+}';
 
 			// descriptions
 

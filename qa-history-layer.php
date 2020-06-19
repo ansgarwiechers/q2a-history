@@ -386,7 +386,6 @@ class qa_html_theme_layer extends qa_html_theme_base
 
 			$whenhtml=qa_html(qa_time_to_string(qa_opt('db_time')-$time));
 			$when = qa_lang_html_sub('main/x_ago', $whenhtml);
-			$when = str_replace(' ','<br/>',$when);
 			$when = preg_replace('/([0-9]+)/','<span class="qa-history-item-date-no">$1</span>',$when);
 
 			
@@ -419,10 +418,24 @@ class qa_html_theme_layer extends qa_html_theme_base
 				$string = str_replace('^badge','<span class="badge-'.$types.'" title="'.$desc.' ('.$typed.')">'.qa_html($name).'</span>',$string);
 			}
 			
+/*
 			$fields[] = array(
 				'type' => 'static',
 				'label'=> '<div class="qa-history-item-date'.(($time >= $last_visit && strpos($type,'in_') === 0)?' qa-history-item-date-new':'').'"'.(qa_opt('user_act_list_shading')?' style="color:'.$col.';background-color:'.$bkg.'"':'').'>'.$when.'</div>',
 				'value'=> '<table class="qa-history-item-table"><tr><td class="qa-history-item-type-cell"><div class="qa-history-item-type qa-history-item-'.$type.'">'.$string.'</div></td><td class="qa-history-item-title-cell"><div class="qa-history-item-title">'.$link.'</div></td class="qa-history-item-points-cell"><td align="right">'.($points?'<div class="qa-history-item-points qa-history-item-points-'.($points<0?'neg">':'pos">+').$points.'</div>':'&nbsp').'</td></tr></table>',
+			);
+*/
+			$points_str = $points ? sprintf("%+d", $points) : '&nbsp;';
+			$points_fmt = $points ? ' qa-history-item-points-'.($points<0 ? 'neg' : 'pos') : '';
+
+			$hist_item_type   = '<div class="qa-history-item-element qa-history-item-type qa-history-item-'.$type.'">'.$string.'</div>';
+			$hist_item_title  = '<div class="qa-history-item-element qa-history-item-title">'.$link.'</div>';
+			$hist_item_points = '<div class="qa-history-item-element qa-history-item-points'.$points_fmt.'">'.$points_str.'</div>';
+
+			$fields[] = array(
+				'type' => 'static',
+				'label'=> '<div class="qa-history-item-date'.(($time >= $last_visit && strpos($type,'in_') === 0)?' qa-history-item-date-new':'').'"'.(qa_opt('user_act_list_shading')?' style="color:'.$col.';background-color:'.$bkg.'"':'').'>'.$when.'</div>',
+				'value'=> '<div class="qa-history-item">'.$hist_item_type.$hist_item_title.$hist_item_points.'</div>',
 			);
 		}		
 		
@@ -431,7 +444,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 		return array(				
 			'style' => 'wide',
 			'title' => qa_opt('user_act_list_title'),
-			'fields'=>$fields,
+			'fields'=> $fields,
 		);
 
 	}
