@@ -207,6 +207,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 		$option_events['q_post'] = (int)$options['points_post_q']*$multi;
 		$option_events['a_post'] = (int)$options['points_post_a']*$multi;
 		$option_events['a_select'] = (int)$options['points_select_a']*$multi;
+		$option_events['a_unselect'] = (int)$options['points_select_a']*$multi*(-1);
 		$option_events['q_vote_up'] = (int)$options['points_vote_up_q']*$multi;
 		$option_events['q_vote_down'] = (int)$options['points_vote_down_q']*$multi;
 		$option_events['a_vote_up'] = (int)$options['points_vote_up_a']*$multi;
@@ -394,6 +395,12 @@ class qa_html_theme_layer extends qa_html_theme_base
 					$points = @$option_events[str_replace('_vote_nil','_unvote_up',$type)];
 				else // unvoting a downvote
 					$points = @$option_events[str_replace('_vote_nil','_unvote_down',$type)];
+			}
+			else if (strpos($event['event'], 'select') !== false) { // (un)selecting an answer or having an answer (un)selected
+				// no points awarded for accepting self-answers
+				$qry    = 'SELECT a.postid FROM ^posts q INNER JOIN ^posts a ON a.parentid=q.postid WHERE a.postid=# AND a.userid=q.userid';
+				$rows	 = qa_db_query_sub($qry, $postid);
+				$points = qa_db_num_rows($rows) > 0 ? '' : @$option_events[$type];
 			}
 			else
 				$points = @$option_events[$type];
