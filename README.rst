@@ -12,7 +12,7 @@ Features
 - shows almost all events in list
 - shows incoming events (e.g. user's question voted on)
 - shows points gained and lost for each event if applicable.
-- option to replace old activity list 
+- option to replace old activity list
 - set max age of events to show in admin/plugins
 - set event exceptions to hide from event user, and those to show to public via admin/plugins
 - css configurable, all strings configurable via admin/plugins
@@ -23,7 +23,7 @@ Installation
 #. Install Question2Answer_
 #. Get the source code for this plugin from github_, either using git_, or downloading directly:
 
-   - To download using git, install git and then type 
+   - To download using git, install git and then type
 	 ``git clone git://github.com/NoahY/q2a-history.git history``
 	 at the command prompt (on Linux, Windows is a bit different)
    - To download directly, go to the `project page`_ and click **Download**

@@ -15,7 +15,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 				PRIMARY KEY (meta_id),
 				UNIQUE (user_id,meta_key)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8'
-			);		
+			);
 
 			$last_visit = qa_db_read_one_value(
 				qa_db_query_sub(
@@ -33,7 +33,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 				);
 				if($events) {
 					$tooltip = str_replace('#',$events,qa_opt('user_act_list_new_text'));
-					
+
 					// pluralizing
 
 					preg_match('/\S+\/\S+/',qa_opt('user_act_list_new_text'),$voicea);
@@ -48,7 +48,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 							break;
 						}
 					}
-					
+
 					$this->content['loggedin']['suffix'] = @$this->content['loggedin']['suffix'].' <a class="qa-history-new-event-link" title="'.$tooltip.'" href="'.qa_path_html('user/'.qa_get_logged_in_handle(), array('tab'=>'history'), qa_opt('site_url')).'"><span class="qa-history-new-event-count">'.$events.'</span></a>';
 				}
 			}
@@ -90,7 +90,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 	{
 		if($this->template == 'user' && qa_opt('user_act_list_active') && qa_opt('user_act_list_replace'))
 			return;
-			
+
 		qa_html_theme_base::q_list_and_form($q_list);
 	}
 
@@ -98,24 +98,22 @@ class qa_html_theme_layer extends qa_html_theme_base
 	{
 		if($this->template == 'user' && qa_get('tab')=='history' && qa_opt('event_logger_to_database') && qa_opt('user_act_list_active')) {
 			$content = array();
-			$content['form-activity-list'] = $this->user_activity_form();  
+			$content['form-activity-list'] = $this->user_activity_form();
 		}
-			
 
 		qa_html_theme_base::main_parts($content);
-
 	}
-	
+
 	function user_activity_form() {
 		$handle = $this->_user_handle();
 		if(!$handle) return;
 		$userid = $this->getuserfromhandle($handle);
 		if(!$userid) return;
-		
+
 		// update last visit
-		
+
 		if($userid == qa_get_logged_in_userid() && qa_opt('user_act_list_new')) {
-			
+
 			qa_db_query_sub(
 				'CREATE TABLE IF NOT EXISTS ^usermeta (
 				meta_id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -125,7 +123,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 				PRIMARY KEY (meta_id),
 				UNIQUE (user_id,meta_key)
 				) ENGINE=MyISAM  DEFAULT CHARSET=utf8'
-			);		
+			);
 
 			$last_visit = qa_db_read_one_value(
 				qa_db_query_sub(
@@ -141,13 +139,13 @@ class qa_html_theme_layer extends qa_html_theme_base
 			);
 		}
 		else $last_visit = time();
-		
+
 		$event_query = qa_db_query_sub(
-			"SELECT 
-				e.event, 
-				BINARY e.params as params, 
+			"SELECT
+				e.event,
+				BINARY e.params as params,
 				UNIX_TIMESTAMP(e.datetime) AS datetime
-			FROM 
+			FROM
 				^eventlog AS e
 			WHERE
 				e.userid=#
@@ -157,9 +155,9 @@ class qa_html_theme_layer extends qa_html_theme_base
 			.(qa_opt('user_act_list_max')?" LIMIT ".(int)qa_opt('user_act_list_max'):""),
 			$userid, qa_opt('user_act_list_age')
 		);
-		
+
 		// no post
-		
+
 		$nopost = array(
 			'u_password',
 			'u_reset',
@@ -177,7 +175,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 			'feedback',
 			'search',
 		);
-		
+
 		// points
 
 		require_once QA_INCLUDE_DIR.'qa-db-points.php';
@@ -185,7 +183,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 		$optionnames=qa_db_points_option_names();
 		$options=qa_get_options($optionnames);
 		$multi = (int)$options['points_multiple'];
-		
+
 		// compat fudge
 		$upvote = '';
 		$downvote = '';
@@ -193,7 +191,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 			$upvote = '_up';
 			$downvote = '_down';
 		}
-		
+
 		$option_events['in_q_vote_up'] = (int)$options['points_per_q_voted'.$upvote]*$multi;
 		$option_events['in_q_vote_down'] = (int)$options['points_per_q_voted'.$downvote]*$multi*(-1);
 		$option_events['in_q_unvote_up'] = (int)$options['points_per_q_voted'.$upvote]*$multi*(-1);
@@ -212,9 +210,9 @@ class qa_html_theme_layer extends qa_html_theme_base
 		$option_events['q_vote_down'] = (int)$options['points_vote_down_q']*$multi;
 		$option_events['a_vote_up'] = (int)$options['points_vote_up_a']*$multi;
 		$option_events['a_vote_down'] = (int)$options['points_vote_down_a']*$multi;
-		
+
 		$fields = array();
-		
+
 		$events = array();
 		$postids = array();
 		$count = 0;
@@ -227,9 +225,9 @@ class qa_html_theme_layer extends qa_html_theme_base
 			else
 				$events['nopost_'.($count++)] = $event;
 		}
-		
+
 		// get post info, also makes sure post exists
-		
+
 		$posts = null;
 		if(!empty($postids)) {
 			$post_query = qa_db_read_all_assoc(
@@ -241,16 +239,15 @@ class qa_html_theme_layer extends qa_html_theme_base
 				$posts[(string)$post['postid']] = $post;
 			}
 		}
-		
+
 		foreach($events as $postid_string => $event) {
 			$type = $event['event'];
-			
+
 			$postid = preg_replace('/_.*/','',$postid_string);
 			$post = null;
 			$post = @$posts[$postid];
-			
-			
-			// these calls allow you to deal with deleted events; 
+
+			// these calls allow you to deal with deleted events;
 			// uncomment the first one to skip them
 			// uncomment the second one to build your own routine based on whether they are deleted.
 
@@ -258,10 +255,9 @@ class qa_html_theme_layer extends qa_html_theme_base
 				continue;
 
 			// $deleted = (!in_array($type, $nopost) && $post == null);
-			
-			
+
 			// hide / show exceptions
-			
+
 			if(qa_get_logged_in_level()<QA_USER_LEVEL_ADMIN) {
 				if($userid != qa_get_logged_in_userid()) { // show public
 					$types = explode("\n",qa_opt('user_act_list_show'));
@@ -275,11 +271,10 @@ class qa_html_theme_layer extends qa_html_theme_base
 				}
 			}
 
-			
 			if(!qa_opt('user_act_list_'.$type)) continue;
-			
+
 			$params = array();
-			
+
 			$paramsa = explode("\t",$event['params']);
 			foreach($paramsa as $param) {
 				$parama = explode('=',$param);
@@ -288,9 +283,9 @@ class qa_html_theme_layer extends qa_html_theme_base
 				else
 					$params[$param]=$param;
 			}
-			
+
 			$link = '';
-			
+
 			if(in_array($type, $nopost)) {
 				if($type == 'search') {
 					if((int)$params['start'] != 0)
@@ -307,7 +302,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 				if(!qa_opt('badge_active') || !function_exists('qa_get_badge_type'))
 					continue;
 				if($post != null) {
-					
+
 					if(strpos($post['type'],'Q') !== 0) {
 						$anchor = qa_anchor((strpos($post['type'],'A') === 0 ?'A':'C'), $params['postid']);
 						$parent = qa_db_read_one_assoc(
@@ -324,14 +319,14 @@ class qa_html_theme_layer extends qa_html_theme_base
 									$parent['parentid']
 								),
 								true
-							);					
-						}						
+							);
+						}
 						$activity_url = qa_path_html(qa_q_request($parent['postid'], $parent['title']), null, qa_opt('site_url'),null,$anchor);
-						$link = '<a href="'.$activity_url.'">'.$parent['title'].'</a>';									
+						$link = '<a href="'.$activity_url.'">'.$parent['title'].'</a>';
 					}
 					else {
 						$activity_url = qa_path_html(qa_q_request($params['postid'], $post['title']), null, qa_opt('site_url'),null,null);
-						$link = '<a href="'.$activity_url.'">'.$post['title'].'</a>';									
+						$link = '<a href="'.$activity_url.'">'.$post['title'].'</a>';
 					}
 				}
 			}
@@ -352,9 +347,9 @@ class qa_html_theme_layer extends qa_html_theme_base
 							$userid,
 							$parent['parentid']
 						)
-					);				
+					);
 				}
-				
+
 				$anchor = qa_anchor((strpos($event['event'],'a_') === 0 || strpos($event['event'],'in_a_') === 0?'A':'C'), $params['postid']);
 				$activity_url = qa_path_html(qa_q_request($parent['postid'], $parent['title']), null, qa_opt('site_url'),null,$anchor);
 				$link = '<a href="'.$activity_url.'">'.$parent['title'].'</a>';
@@ -369,12 +364,12 @@ class qa_html_theme_layer extends qa_html_theme_base
 					$link = '<a href="'.$activity_url.'">'.$params['title'].'</a>';
 				}
 			}
-			
+
 			$time = $event['datetime'];
-			
+
 			if(qa_opt('user_act_list_shading')) {
 				$days = (qa_opt('db_time')-$time)/60/60/24;
-				
+
 				$col = round($days/qa_opt('user_act_list_age')*255/2);
 				$bkg = 255-round($days/qa_opt('user_act_list_age')*255/8);
 				$bkg = dechex($bkg);
@@ -389,7 +384,6 @@ class qa_html_theme_layer extends qa_html_theme_base
 			$when = qa_lang_html_sub('main/x_ago', $whenhtml);
 			$when = preg_replace('/([0-9]+)/','<span class="qa-history-item-date-no">$1</span>',$when);
 
-			
 			if(strpos($type,'_vote_nil') == 4) {
 				if($params['oldvote'] == '1') // unvoting an upvote
 					$points = @$option_events[str_replace('_vote_nil','_unvote_up',$type)];
@@ -405,9 +399,8 @@ class qa_html_theme_layer extends qa_html_theme_base
 			else
 				$points = @$option_events[$type];
 
-			
 			$string = qa_opt('user_act_list_'.$type);
-			
+
 			if($type == 'badge_awarded') {
 				$slug = $params['badge_slug'];
 				$typea = qa_get_badge_type_by_slug($slug);
@@ -415,16 +408,16 @@ class qa_html_theme_layer extends qa_html_theme_base
 					continue;
 				$types = $typea['slug'];
 				$typed = $typea['name'];
-				
+
 				$badge_name=qa_badge_name($slug);
 				if(!qa_opt('badge_'.$slug.'_name')) qa_opt('badge_'.$slug.'_name',$badge_name);
 				$var = qa_opt('badge_'.$slug.'_var');
 				$name = qa_opt('badge_'.$slug.'_name');
 				$desc = qa_badge_desc_replace($slug,$var,false);
-				
+
 				$string = str_replace('^badge','<span class="badge-'.$types.'" title="'.$desc.' ('.$typed.')">'.qa_html($name).'</span>',$string);
 			}
-			
+
 			$points_str = $points ? sprintf("%+d", $points) : '&nbsp;';
 			$points_fmt = $points ? ' qa-history-item-points-'.($points<0 ? 'neg' : 'pos') : '';
 
@@ -437,18 +430,17 @@ class qa_html_theme_layer extends qa_html_theme_base
 				'label'=> '<div class="qa-history-item-date'.(($time >= $last_visit && strpos($type,'in_') === 0)?' qa-history-item-date-new':'').'"'.(qa_opt('user_act_list_shading')?' style="color:'.$col.';background-color:'.$bkg.'"':'').'>'.$when.'</div>',
 				'value'=> '<div class="qa-history-item">'.$hist_item_type.$hist_item_title.$hist_item_points.'</div>',
 			);
-		}		
-		
+		}
+
 		if(empty($fields)) return;
-		
-		return array(				
+
+		return array(
 			'style' => 'wide',
 			'title' => qa_opt('user_act_list_title'),
 			'fields'=> $fields,
 		);
-
 	}
-	
+
 	// grab the handle of the profile you're looking at
 	function _user_handle()
 	{
@@ -457,12 +449,12 @@ class qa_html_theme_layer extends qa_html_theme_base
 	}
 	function getuserfromhandle($handle) {
 		require_once QA_INCLUDE_DIR.'qa-app-users.php';
-		
+
 		if (QA_FINAL_EXTERNAL_USERS) {
 			$publictouserid=qa_get_userids_from_public(array($handle));
 			$userid=@$publictouserid[$handle];
-			
-		} 
+
+		}
 		else {
 			$userid = qa_db_read_one_value(
 				qa_db_query_sub(
@@ -477,12 +469,12 @@ class qa_html_theme_layer extends qa_html_theme_base
 	}
 	function getHandleFromID($uid) {
 		require_once QA_INCLUDE_DIR.'qa-app-users.php';
-		
+
 		if (QA_FINAL_EXTERNAL_USERS) {
 			$publictouserid=qa_get_public_from_userids(array($uid));
 			$handle=@$publictouserid[$uid];
-			
-		} 
+
+		}
 		else {
 			$handle = qa_db_read_one_value(
 				qa_db_query_sub(
@@ -495,4 +487,5 @@ class qa_html_theme_layer extends qa_html_theme_base
 		if (!isset($handle)) return;
 		return $handle;
 	}
+
 }
