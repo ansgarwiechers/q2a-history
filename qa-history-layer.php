@@ -355,10 +355,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 				$link = '<a href="'.$activity_url.'">'.$parent['title'].'</a>';
 			}
 			else if($post != null) { // question
-
-				if(!isset($params['title'])) {
-					$params['title'] = $posts[$params['postid']]['title'];
-				}
+				$params['title'] = $posts[$params['postid']]['title'];
 				if($params['title'] !== null) {
 					$activity_url = qa_path_html(qa_q_request($params['postid'], $params['title']), null, qa_opt('site_url'));
 					$link = '<a href="'.$activity_url.'">'.$params['title'].'</a>';
