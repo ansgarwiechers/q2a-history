@@ -377,9 +377,16 @@ class qa_html_theme_layer extends qa_html_theme_base
 				$bkg = '#' . $bkg .$bkg . $bkg;
 			}
 
-			$whenhtml=qa_html(qa_time_to_string(qa_opt('db_time')-$time));
-			$when = qa_lang_html_sub('main/x_ago', $whenhtml);
-			$when = preg_replace('/([0-9]+)/','<span class="qa-history-item-date-no">$1</span>',$when);
+			$timedelta = qa_opt('db_time') - $time;
+			if ($timedelta < 259200) {
+				// post is less than 3 days old (3*24*60*60 seconds)
+				$whenhtml = qa_html(qa_time_to_string($timedelta));
+				$when = qa_lang_html_sub('main/x_ago', $whenhtml);
+				$when = preg_replace('/([0-9]+)/','<span class="qa-history-item-date-no">$1</span>',$when);
+			}
+			else {
+				$when = qa_html(date('Y-m-d', $time));
+			}
 
 			if(strpos($type,'_vote_nil') == 4) {
 				if($params['oldvote'] == '1') // unvoting an upvote
