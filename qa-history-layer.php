@@ -377,14 +377,16 @@ class qa_html_theme_layer extends qa_html_theme_base
 				$bkg = '#' . $bkg .$bkg . $bkg;
 			}
 
+			$full_date_after = qa_opt('show_full_date_days');
 			$timedelta = qa_opt('db_time') - $time;
-			if ($timedelta < 259200) {
-				// post is less than 3 days old (3*24*60*60 seconds)
+			if ($timedelta < $full_date_after * 24 * 60 * 60) {
+				// show age if post is less than $full_date_days days old
 				$whenhtml = qa_html(qa_time_to_string($timedelta));
 				$when = qa_lang_html_sub('main/x_ago', $whenhtml);
 				$when = preg_replace('/([0-9]+)/','<span class="qa-history-item-date-no">$1</span>',$when);
 			}
 			else {
+				// otherwise show date
 				$when = qa_html(date('Y-m-d', $time));
 			}
 
