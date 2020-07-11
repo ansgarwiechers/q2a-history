@@ -1,12 +1,10 @@
-====================================
-Question2Answer History v 1.0b
-====================================
------------
+Question2Answer History
+=======================
+
 Description
 -----------
-This is a plugin for **Question2Answer** that adds an activity/points history to the user profile.
+This is a plugin for **Question2Answer** that adds an activity/points history to the user profile. It was created by NoahY as a fork of a similar plugin by Scott Vivian.
 
---------
 Features
 --------
 - shows almost all events in list
@@ -15,44 +13,32 @@ Features
 - option to replace old activity list
 - set max age of events to show in admin/plugins
 - set event exceptions to hide from event user, and those to show to public via admin/plugins
-- css configurable, all strings configurable via admin/plugins
+- CSS configurable, all strings configurable via admin/plugins
 
-------------
 Installation
 ------------
-#. Install Question2Answer_
-#. Get the source code for this plugin from github_, either using git_, or downloading directly:
+#. Install [Question2Answer][1]
+#. Get the source code for this plugin from [Github][2], either using [git][3], or downloading directly:
 
    - To download using git, install git and then type
-	 ``git clone git://github.com/NoahY/q2a-history.git history``
-	 at the command prompt (on Linux, Windows is a bit different)
-   - To download directly, go to the `project page`_ and click **Download**
 
-#. extract the files to a subfolder such as ``history`` inside the ``qa-plugins`` folder of your Q2A installation.
-#. navigate to your site, go to **Admin -> Plugins** on your q2a install.
-#. First, set up the event logger plugin to ``Log events to qa_eventlog database table``.
-#. Then, go to History Admin, select options, then click **Save Changes**.
+       git clone git@github.com/awiechers/q2a-history.git history
 
-.. _Question2Answer: http://www.question2answer.org/install.php
-.. _git: http://git-scm.com/
-.. _github:
-.. _project page: https://github.com/NoahY/q2a-history
+     at the command prompt (on Linux, Windows is a bit different)
+   - To download directly, go to the [project page][4] and click **Download**.
 
-----------
-Disclaimer
-----------
-This is **beta** code.  It is probably okay for production environments, but may not work exactly as expected.  Refunds will not be given.  If it breaks, you get to keep both parts.
+#. Extract the files to a subfolder such as `history` inside the `qa-plugins` folder of your Q2A installation.
+#. Navigate to your site, log in as an admin, then go to *Admin&nbsp;&rarr; Plugins*.
+#. First, set up the event logger plugin to *Log events to qa_eventlog database table*.
+#. Then, go to *History*, select *options*, then click **Save Changes**.
 
--------
-Release
--------
-All code herein is Copylefted_.
-
-.. _Copylefted: http://en.wikipedia.org/wiki/Copyleft
-
----------
-About q2A
+About Q2A
 ---------
 Question2Answer is a free and open source platform for Q&A sites. For more information, visit:
 
 http://www.question2answer.org/
+
+[1]: https://www.question2answer.org/install.php
+[2]: https://github.com/
+[3]: https://git-scm.com/
+[4]: https://github.com/ansgarwiechers/q2a-history
