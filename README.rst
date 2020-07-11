@@ -22,7 +22,7 @@ Installation
 
    - To download using git, install git and then type
 
-       git clone git@github.com/awiechers/q2a-history.git history
+     `git clone git@github.com/awiechers/q2a-history.git history`
 
      at the command prompt (on Linux, Windows is a bit different)
    - To download directly, go to the [project page][4] and click **Download**.
