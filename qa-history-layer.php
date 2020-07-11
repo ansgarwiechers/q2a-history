@@ -140,8 +140,10 @@ class qa_html_theme_layer extends qa_html_theme_base
 		}
 		else $last_visit = time();
 
+		// For unknown reasons some events are recorded twice in the eventlog, so we
+		// just select unique events for the time being.
 		$event_query = qa_db_query_sub(
-			"SELECT
+			"SELECT DISTINCT
 				e.event,
 				BINARY e.params as params,
 				UNIX_TIMESTAMP(e.datetime) AS datetime
