@@ -17,20 +17,20 @@ Features
 
 Installation
 ------------
-#. Install [Question2Answer][1]
-#. Get the source code for this plugin from [Github][2], either using [git][3], or downloading directly:
+1. Install [Question2Answer][1]
+2. Get the source code for this plugin from [Github][2], either using [git][3], or downloading directly:
 
    - To download using git, install git and then type
 
-     `git clone git@github.com/awiechers/q2a-history.git history`
+         git clone git@github.com/awiechers/q2a-history.git history
 
      at the command prompt (on Linux, Windows is a bit different)
    - To download directly, go to the [project page][4] and click **Download**.
 
-#. Extract the files to a subfolder such as `history` inside the `qa-plugins` folder of your Q2A installation.
-#. Navigate to your site, log in as an admin, then go to *Admin&nbsp;&rarr; Plugins*.
-#. First, set up the event logger plugin to *Log events to qa_eventlog database table*.
-#. Then, go to *History*, select *options*, then click **Save Changes**.
+3. Extract the files to a subfolder such as `history` inside the `qa-plugins` folder of your Q2A installation.
+4. Navigate to your site, log in as an admin, then go to *Admin&nbsp;&rarr; Plugins*.
+5. First, set up the event logger plugin to *Log events to qa_eventlog database table*.
+6. Then, go to *History*, select *options*, then click **Save Changes**.
 
 About Q2A
 ---------
