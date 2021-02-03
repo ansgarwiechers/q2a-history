@@ -323,12 +323,10 @@ class qa_html_theme_layer extends qa_html_theme_base
 								true
 							);
 						}
-						$activity_url = qa_path_html(qa_q_request($parent['postid'], $parent['title']), null, qa_opt('site_url'),null,$anchor);
-						$link = '<a href="'.$activity_url.'">'.$parent['title'].'</a>';
+						$link = $this->title_to_url($parent['postid'], $parent['title'], $anchor);
 					}
 					else {
-						$activity_url = qa_path_html(qa_q_request($params['postid'], $post['title']), null, qa_opt('site_url'),null,null);
-						$link = '<a href="'.$activity_url.'">'.$post['title'].'</a>';
+						$link = $this->title_to_url($params['postid'], $post['title']);
 					}
 				}
 			}
@@ -353,14 +351,12 @@ class qa_html_theme_layer extends qa_html_theme_base
 				}
 
 				$anchor = qa_anchor((strpos($event['event'],'a_') === 0 || strpos($event['event'],'in_a_') === 0?'A':'C'), $params['postid']);
-				$activity_url = qa_path_html(qa_q_request($parent['postid'], $parent['title']), null, qa_opt('site_url'),null,$anchor);
-				$link = '<a href="'.$activity_url.'">'.$parent['title'].'</a>';
+				$link = $this->title_to_url($parent['postid'], $parent['title'], $anchor);
 			}
 			else if($post != null) { // question
 				$params['title'] = $posts[$params['postid']]['title'];
 				if($params['title'] !== null) {
-					$activity_url = qa_path_html(qa_q_request($params['postid'], $params['title']), null, qa_opt('site_url'));
-					$link = '<a href="'.$activity_url.'">'.$params['title'].'</a>';
+					$link = $this->title_to_url($params['postid'], $params['title']);
 				}
 			}
 
@@ -475,6 +471,7 @@ class qa_html_theme_layer extends qa_html_theme_base
 		if (!isset($userid)) return;
 		return (int)$userid;
 	}
+
 	function getHandleFromID($uid) {
 		require_once QA_INCLUDE_DIR.'qa-app-users.php';
 
@@ -494,6 +491,11 @@ class qa_html_theme_layer extends qa_html_theme_base
 		}
 		if (!isset($handle)) return;
 		return $handle;
+	}
+
+	private function title_to_url($post_id, $title, $anchor = null) {
+		$activity_url = qa_path_html(qa_q_request($post_id, $title), null, qa_opt('site_url'), null, $anchor);
+		return '<a href="' . $activity_url . '">' . htmlentities($title) .'</a>';
 	}
 
 }
